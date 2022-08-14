@@ -14,10 +14,19 @@ type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 export default function Map() {
+  const [office, setOffice] = useState<LatLngLiteral>();
+
   const mapRef = useRef<GoogleMap>();
-  const center = useMemo<LatLngLiteral>(() => ({ lat: 43, lng: -80 }), []);
+  const center = useMemo<LatLngLiteral>(
+    () => ({ lat: 32.0853, lng: 34.7818 }),
+    []
+  );
   const options = useMemo<MapOptions>(
-    () => ({ disableDefaultUI: true, clickableIcons: true }),
+    () => ({
+      mapId: "a4448d9790b3e81a",
+      disableDefaultUI: true,
+      clickableIcons: true,
+    }),
     []
   );
   const onLoad = useCallback((map) => {
@@ -28,11 +37,17 @@ export default function Map() {
     <div className="container">
       <div className="controls">
         <h1>Commute?</h1>
+        <Places
+          setOffice={(position) => {
+            setOffice(position);
+            mapRef.current?.panTo(position);
+          }}
+        />
       </div>
 
       <div className="map">
         <GoogleMap
-          zoom={10}
+          zoom={14}
           center={center}
           options={options}
           mapContainerClassName="map-container"
