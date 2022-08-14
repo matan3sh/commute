@@ -62,6 +62,8 @@ export default function Map() {
             mapRef.current?.panTo(position);
           }}
         />
+        {!office && <p>Enter Address of Your Office</p>}
+        {directions && <Distance leg={directions.routes[0].legs[0]} />}
       </div>
 
       <div className="map">
