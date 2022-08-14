@@ -52,7 +52,20 @@ export default function Map() {
           options={options}
           mapContainerClassName="map-container"
           onLoad={onLoad}
-        ></GoogleMap>
+        >
+          {office && (
+            <>
+              <Marker
+                position={office}
+                icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+              />
+
+              <Circle center={office} radius={1000} options={closeOptions} />
+              <Circle center={office} radius={2500} options={middleOptions} />
+              <Circle center={office} radius={5000} options={middleOptions} />
+            </>
+          )}
+        </GoogleMap>
       </div>
     </div>
   );
