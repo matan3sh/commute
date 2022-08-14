@@ -29,9 +29,9 @@ export default function Map() {
     }),
     []
   );
-  const onLoad = useCallback((map) => {
-    mapRef.current = map;
-  }, []);
+
+  const onLoad = useCallback((map) => (mapRef.current = map), []);
+  const houses = useMemo(() => generateHouses(center), [center]);
 
   return (
     <div className="container">
@@ -60,9 +60,13 @@ export default function Map() {
                 icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
               />
 
+              {houses.map((house) => (
+                <Marker key={house.lat} position={house} />
+              ))}
+
               <Circle center={office} radius={1000} options={closeOptions} />
-              <Circle center={office} radius={2500} options={middleOptions} />
-              <Circle center={office} radius={5000} options={middleOptions} />
+              <Circle center={office} radius={2000} options={middleOptions} />
+              <Circle center={office} radius={4000} options={farOptions} />
             </>
           )}
         </GoogleMap>
@@ -104,7 +108,7 @@ const farOptions = {
 const generateHouses = (position: LatLngLiteral) => {
   const _houses: Array<LatLngLiteral> = [];
   for (let i = 0; i < 100; i++) {
-    const direction = Math.random() < 0.5 ? -2 : 2;
+    const direction = Math.random() < 0.5 ? -90 : 50;
     _houses.push({
       lat: position.lat + Math.random() / direction,
       lng: position.lng + Math.random() / direction,
